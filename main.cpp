@@ -1,8 +1,10 @@
 #include <iostream>
 #include "include/Cyrebro.h"
+#include "include/Camadas.h"
 
 using namespace std;
 using namespace Cyrebro;
+using namespace Camadas;
 
 
 void testeCriacaoNeuronio();
@@ -11,14 +13,14 @@ void testeCriacaoCamada();
 
 int main()
 {
-    Camada c1(5), c2(3);
+    MLP c1(5), c2(3);
 
-    c1.conectarCamada(&c2);
+	c1.conectarProxCamada(&c2);
 
 	vector<int> valores(5);
 	int aleatorio = 0;
 
-	for (int n = 0; n < c1.qtdNeuronios; n++)
+	for (int n = 0; n < c1.getQtdPerceptrons(); n++)
 	{
 		aleatorio = rand() % 3;
 		switch (aleatorio)
@@ -36,10 +38,10 @@ int main()
 	}
 	c1.aplicarEntrada(valores);
 
-	c2.calculaSaida(c1);
+	c2.calculaSaida(&c1);
 
-	for (Neuronio n : c2.neuronios) {
-		cout << n.saida << endl;
+	for (Perceptron n : c2.getPerceptrons()) {
+		cout << n.getSaida() << endl;
 	}
 
     return 0;

@@ -24,18 +24,24 @@
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Cyrebro.cpp">
+    <ClCompile Include="src\Ativacoes.cpp">
       <Filter>Arquivos de Origem\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Ativacoes.cpp">
+    <ClCompile Include="src\Neuronios.cpp">
+      <Filter>Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camadas.cpp">
       <Filter>Arquivos de Origem\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Cyrebro.h">
+    <ClInclude Include="include\Ativacoes.h">
       <Filter>Arquivos de Cabeçalho\includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\Ativacoes.h">
+    <ClInclude Include="include\Neuronios.h">
+      <Filter>Arquivos de Cabeçalho\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camadas.h">
       <Filter>Arquivos de Cabeçalho\includes</Filter>
     </ClInclude>
   </ItemGroup>
