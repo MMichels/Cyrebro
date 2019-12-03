@@ -6,7 +6,7 @@ namespace Neuronios {
 	void Perceptron::_inicializarComum()
 	{
 		this->pesos.reserve(this->qtdLigacoes);
-		this->pesos.assign(this->qtdLigacoes, 1);
+		this->pesos.assign(this->qtdLigacoes, VALOR_TRABALHO);
 		srand(time(NULL));
 	}
 
@@ -24,15 +24,15 @@ namespace Neuronios {
 
 	void Perceptron::randomPesos()
 	{
-		vector<int> pesos(this->qtdLigacoes, 1);
+		vector<int> pesos(this->qtdLigacoes, VALOR_TRABALHO);
 		this->pesos.swap(pesos);
 		for (int p = 0; p < this->qtdLigacoes; p++) {
 			int negativoPositivo = rand() % 2;
 			if (negativoPositivo >= 1) {
-				this->pesos[p] = rand() % 10001;
+				this->pesos[p] = rand() % (VALOR_TRABALHO + 1);
 			}
 			else {
-				this->pesos[p] = -(rand() % 10001);
+				this->pesos[p] = -(rand() % (VALOR_TRABALHO + 1));
 			}
 		}
 	}

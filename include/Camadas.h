@@ -5,7 +5,9 @@
 #include "Neuronios.h"
 #include "Ativacoes.h"
 
-#define TAXA_DECAIMENTO_MUTACOES 0.999
+#ifndef BIAS
+#define BIAS 1
+#endif // !BIAS
 
 using namespace Neuronios;
 

@@ -3,8 +3,8 @@
 namespace Ativacao {
 	int relu(int x)
 	{
-		if (x > 10000) {
-			return 10000;
+		if (x > VALOR_TRABALHO) {
+			return VALOR_TRABALHO;
 		}
 		else if (x < 0) {
 			return 0;

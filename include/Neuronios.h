@@ -1,8 +1,11 @@
 #pragma once
 #ifndef NEURONIOS_H
 #define NEURONIOS_H
-
 #include <vector>
+
+#ifndef VALOR_TRABALHO
+#define VALOR_TRABALHO 10000
+#endif // !VALOR_TRABALHO
 
 using namespace std;
 

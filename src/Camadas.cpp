@@ -3,7 +3,6 @@
 #include "../include/Camadas.h"
 #include <cmath>
 
-#define BIAS 1
 
 using namespace Neuronios;
 

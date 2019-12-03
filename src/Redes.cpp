@@ -13,9 +13,9 @@ namespace Redes {
 		if (this->qtdCamadas >= 1) {
 			this->camadaEntrada.conectarProxCamada(&this->camadasEscondidas[0]);
 			for (int i = 1; i < this->qtdCamadas; i++) {
-				this->camadasEscondidas[i - 1].conectarProxCamada(&this->camadasEscondidas[i]);
+				this->camadasEscondidas[(int) i - 1].conectarProxCamada(&this->camadasEscondidas[i]);
 			}
-			this->camadasEscondidas[this->qtdCamadas-1].conectarProxCamada(&this->camadaSaida);
+			this->camadasEscondidas[(int)this->qtdCamadas - 1].conectarProxCamada(&this->camadaSaida);
 		}
 		else {
 			this->camadaEntrada.conectarProxCamada(&this->camadaSaida);
@@ -52,10 +52,10 @@ namespace Redes {
 			this->camadasEscondidas[0].calculaSaida(&this->camadaEntrada);
 
 			for (int i = 1; i < this->qtdCamadas; i++) {
-				this->camadasEscondidas[i].calculaSaida(&this->camadasEscondidas[i - 1]);
+				this->camadasEscondidas[i].calculaSaida(&this->camadasEscondidas[(int) i - 1]);
 			}
 
-			this->camadaSaida.calculaSaida(&this->camadasEscondidas[this->qtdCamadas - 1]);
+			this->camadaSaida.calculaSaida(&this->camadasEscondidas[(int)this->qtdCamadas - 1]);
 		}
 		else {
 			this->camadaSaida.calculaSaida(&this->camadaEntrada);
