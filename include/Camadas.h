@@ -5,15 +5,18 @@
 #include "Neuronios.h"
 #include "Ativacoes.h"
 
+#define TAXA_DECAIMENTO_MUTACOES 0.999
+
 using namespace Neuronios;
 
 namespace Camadas {
 	class MLP {
-	private:
-		int qtdPerceptrons; // Quantidade de Neuronios da camada
+	public:
+		int qtdPerceptrons, minimoMutacoes;
+		float  qtdMutacoes;
 		vector<Perceptron> perceptrons; // Vetor com os Neuronios do tipo Perceptron.
 		void _inicializadorPadrao();
-	public:
+
 		//	Construtor Padrão
 		MLP();
 
@@ -24,27 +27,6 @@ namespace Camadas {
 			@param qtdPerceptrons: Numero de neuronios da camada
 		*/
 		MLP(int qtdPerceptrons);
-
-		//	Retorna a quantidade de neuronios da camada
-		int getQtdPerceptrons();
-		/*	
-			Altera a quantidade de neuronios da camada
-
-			@param qtdPerceptrons: Nova quantidade de neuronios da rede.
-		*/
-		void setQtdPerceptrons(int qtdPerceptrons);
-
-		// Retorna o vetor com os neuronios da camada.
-		vector<Perceptron> getPerceptrons();
-		/*
-			Substitui os Neuronios da camada, em caso de adicionar mais neuronios a camada,
-			é necessario alterar a quantidade de neuronios da rede antes de adicionar os neuronios
-			novos.
-
-			@param novosPerceptrons: Vetor contendo os novos neuronios da camada
-		*/
-		void setPerceptrons(vector<Perceptron> novosPerceptrons);
-
 
 		/*
 			Conecta as camadas, durante a conexão, os neuronios da proxima camada
@@ -67,6 +49,9 @@ namespace Camadas {
 		*/
 		void calculaSaida(MLP* camadaAnterior);
 
+		//	Retorna o valor de saida de todos os neuronios da camada
+		vector<int> obterSaida();
+
 		/*
 			Aplica os valores de entrada recebidos na saida de cada neuronio da camada.
 
@@ -74,6 +59,7 @@ namespace Camadas {
 				dos neuronios na rede, o tamanho desse vetor deve ser igual a quantidade de neuronios da camada.
 		*/
 		void aplicarEntrada(vector<int> valoresEntrada);
+
 
 		// Desconstrutor padrão.
 		~MLP();

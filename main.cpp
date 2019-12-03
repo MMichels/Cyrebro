@@ -1,26 +1,18 @@
 #include <iostream>
-#include "include/Cyrebro.h"
-#include "include/Camadas.h"
+#include "include/Redes.h"
 
 using namespace std;
-using namespace Cyrebro;
-using namespace Camadas;
+using namespace Redes;
 
-
-void testeCriacaoNeuronio();
-
-void testeCriacaoCamada();
 
 int main()
 {
-    MLP c1(5), c2(3);
 
-	c1.conectarProxCamada(&c2);
-
-	vector<int> valores(5);
+	Densa r(18, 1, 6, 4);
+	vector<int> valores(18, 0);
 	int aleatorio = 0;
 
-	for (int n = 0; n < c1.getQtdPerceptrons(); n++)
+	for (int n = 0; n < valores.size(); n++)
 	{
 		aleatorio = rand() % 3;
 		switch (aleatorio)
@@ -36,54 +28,13 @@ int main()
 		}
 
 	}
-	c1.aplicarEntrada(valores);
+	r.aplicarEntrada(valores);
+	r.calculaSaida();
 
-	c2.calculaSaida(&c1);
-
-	for (Perceptron n : c2.getPerceptrons()) {
-		cout << n.getSaida() << endl;
+	for (int s : r.obterSaida()) {
+		cout << s << "\t";
 	}
 
+
     return 0;
-}
-
-
-void testeCriacaoNeuronio(){
-    int qtdLigacoes = 0;
-
-    cout << "Digite a quantidade de ligações: " << endl;
-    cin >> qtdLigacoes;
-
-    cout << "Criando neuronio..." << endl;
-
-    Neuronio n(qtdLigacoes);
-
-    cout << "Neuronio criado..." << endl;
-    cout << "Pesos do neuronio:" << endl;
-    for(int p = 0; p < n.qtdLigacoes; p++){
-        cout << n.pesos[p] << endl;
-    }
-}
-
-
-void testeCriacaoCamada(){
-    int qtdNeuronios = 8;
-
-    cout << "Digite a quantidade de neuronios: " << endl;
-    cin >> qtdNeuronios;
-
-    cout << "Criando camada..." << endl;
-
-    Camada c(qtdNeuronios);
-
-    cout << "Camada criada..." << endl;
-    cout << "Pesos do 1° neuronio:" << endl;
-
-    Neuronio n = c.neuronios[0];
-
-    for(int p = 0; p < n.qtdLigacoes; p++){
-        cout << n.pesos[p] << endl;
-    }
-
-
 }

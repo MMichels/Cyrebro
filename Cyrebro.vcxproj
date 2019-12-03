@@ -130,11 +130,13 @@
     <ClCompile Include="src\Ativacoes.cpp" />
     <ClCompile Include="src\Camadas.cpp" />
     <ClCompile Include="src\Neuronios.cpp" />
+    <ClCompile Include="src\Redes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Ativacoes.h" />
     <ClInclude Include="include\Camadas.h" />
     <ClInclude Include="include\Neuronios.h" />
+    <ClInclude Include="include\Redes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

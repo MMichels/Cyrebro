@@ -22,31 +22,6 @@ namespace Neuronios {
 		this->_inicializarComum();
 	}
 
-	int Perceptron::getQtdLigacoes()
-	{
-		return this->qtdLigacoes;
-	}
-
-	void Perceptron::setQtdLigacoes(int qtdLigacoes)
-	{
-		this->qtdLigacoes = qtdLigacoes;
-	}
-
-	vector<int> Perceptron::getPesos()
-	{
-		return this->pesos;
-	}
-
-	void Perceptron::setPesos(vector<int> novosPesos)
-	{
-		if (novosPesos.size() == this->getQtdLigacoes()) {
-			this->pesos.swap(novosPesos);
-		}
-		else {
-			throw std::exception("O numero de pesos deve ser igual a quantidade de ligações que o neuronio realiza");
-		}
-	}
-
 	void Perceptron::randomPesos()
 	{
 		vector<int> pesos(this->qtdLigacoes, 1);
@@ -54,22 +29,12 @@ namespace Neuronios {
 		for (int p = 0; p < this->qtdLigacoes; p++) {
 			int negativoPositivo = rand() % 2;
 			if (negativoPositivo >= 1) {
-				this->pesos[p] = rand() % 1000;
+				this->pesos[p] = rand() % 10001;
 			}
 			else {
-				this->pesos[p] = -(rand() % 1000);
+				this->pesos[p] = -(rand() % 10001);
 			}
 		}
-	}
-
-	int Perceptron::getSaida()
-	{
-		return this->saida;
-	}
-
-	void Perceptron::setSaida(int saida)
-	{
-		this->saida = saida;
 	}
 
 	Perceptron::~Perceptron()
