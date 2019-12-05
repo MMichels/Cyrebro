@@ -21,6 +21,9 @@ namespace Redes {
 		else {
 			this->camadaEntrada.conectarProxCamada(&this->camadaSaida);
 		}
+		this->_calcula_tamanho_dna();
+		this->_calcula_qtd_genes_saida();
+		this->qtdMutacoes = this->tamanhoDNA;
 	}
 	
 	Densa::Densa() {
@@ -77,7 +80,7 @@ namespace Redes {
 	
 	//	Rede Genética
 	
-	void DensaGenetica::_calcula_tamanho_dna()
+	void Densa::_calcula_tamanho_dna()
 	{
 		this->tamanhoDNA = 0;
 		for (MLP c : this->camadasEscondidas) {
@@ -90,7 +93,7 @@ namespace Redes {
 		}
 	}
 
-	void DensaGenetica::_calcula_qtd_genes_saida()
+	void Densa::_calcula_qtd_genes_saida()
 	{
 		this->qtdGenesCamadaSaida = 0;
 		for (Perceptron p : this->camadaSaida.perceptrons) {
@@ -99,14 +102,7 @@ namespace Redes {
 		this->qtdGenesCamadasEscondidas = this->tamanhoDNA - this->qtdGenesCamadaSaida;
 	}
 
-	DensaGenetica::DensaGenetica(int qtdNeuEntrada, int qtdCamadas, int profundidade, int qtdNeuSaida) : Densa(qtdNeuEntrada, qtdCamadas, profundidade, qtdNeuSaida)
-	{
-		this->_calcula_tamanho_dna();
-		this->_calcula_qtd_genes_saida();		
-		this->qtdMutacoes = (double)this->tamanhoDNA;
-	}
-
-	int DensaGenetica::mudarValor(int valor)
+	int Densa::mudarValor(int valor)
 	{
 		int tipoMutacao = rand() % 3;
 		int numero = 0;
@@ -129,88 +125,77 @@ namespace Redes {
 
 		return valor;
 	}
-	
-	void DensaGenetica::mutacaoCamadasEscondidas(int indiceMutacao)
+
+	vector<int> Densa::copiarDNA()
 	{
-		int contador = 0, indicePeso = -1, indiceCamada = -1, indicePerceptron = -1, valor = 0;
-
-		MLP* camadaEscondida;
-		Perceptron* perceptron = new Perceptron();
-
-		for (indiceCamada = 0; indiceCamada < this->qtdCamadas; indiceCamada++) {
-			camadaEscondida = &this->camadasEscondidas[indiceCamada];
-			for (indicePerceptron = 0; indicePerceptron < camadaEscondida->qtdPerceptrons; indicePerceptron++) {
-				perceptron = &camadaEscondida->perceptrons[indicePerceptron];
-				if (perceptron->qtdLigacoes + contador >= indiceMutacao) {
-					indicePeso = indiceMutacao - contador;
-					break;
-				}
-				else {
-					contador += perceptron->qtdLigacoes;
+		vector<int> DNA;
+		vector<MLP> todasCamadas = this->camadasEscondidas;
+		todasCamadas.push_back(this->camadaSaida);
+		for (MLP c : todasCamadas) {
+			for (Perceptron p : c.perceptrons) {
+				for (int peso : p.pesos) {
+					DNA.push_back(peso);
 				}
 			}
-			if (indicePeso > -1) {
-				break;
-			}
 		}
-
-		if (indicePeso == -1) {
-			//	Se ocorrer algum erro no calculo do peso...
-			indicePeso = rand() % perceptron->qtdLigacoes;
-		}
-
-		//	Como a variavel perceptron é um ponteiro, nao é necessario realizar o set do perceptron na camada
-		valor = perceptron->pesos[indicePeso-1];
-		valor = this->mudarValor(valor);
-		//perceptron->pesos[indicePeso-1] = valor;
-		this->camadasEscondidas[indiceCamada].perceptrons[indicePerceptron].pesos[indicePeso - 1] = valor;
+		return DNA;
 	}
-	
-	void DensaGenetica::mutacaoCamadaSaida(int indiceMutacao)
+
+	void Densa::colarDNA(vector<int> dna)
 	{
-		indiceMutacao -= this->qtdGenesCamadasEscondidas;
-		int contador = 0, indicePerceptron = -1, indicePeso = -1, valor=0;
-
-		Perceptron* perceptron = new Perceptron();
-		for (indicePerceptron = 0; indicePerceptron < this->qtdNeuroniosSaida; indicePerceptron++) {
-			perceptron = &this->camadaSaida.perceptrons[indicePerceptron];
-			if (perceptron->qtdLigacoes + contador >= indiceMutacao) {
-				indicePeso = indiceMutacao - contador;
-				break;
-			} else {
-				contador += perceptron->qtdLigacoes;
+		vector<MLP> todasCamadas = this->camadasEscondidas;
+		todasCamadas.push_back(this->camadaSaida);
+		int contador = 0;
+		
+		for (int c = 0; c < todasCamadas.size(); c++) {
+			MLP* camada = &todasCamadas[c];
+			for (int pc = 0; pc < camada->qtdPerceptrons; pc++) {
+				Perceptron* perceptron = &camada->perceptrons[pc];
+				for (int ps = 0; ps < perceptron->qtdLigacoes; ps++) {
+					perceptron->pesos[ps] = dna[contador];
+					contador++;
+				}
 			}
+			if (c < this->qtdCamadas) {
+				this->camadasEscondidas[c] = todasCamadas[c];
+			}
+			else if (c == this->qtdCamadas) {
+				this->camadaSaida = todasCamadas[c];
+			}
+
 		}
 
-		valor = perceptron->pesos[indicePeso-1];
-		valor = this->mudarValor(valor);
-		this->camadaSaida.perceptrons[indicePerceptron].pesos[indicePeso - 1] = valor;
 	}
 
-	void DensaGenetica::realizaMutacao(int indiceMutacao)
-	{
-		if (indiceMutacao <= this->qtdGenesCamadasEscondidas) {
-			this->mutacaoCamadasEscondidas(indiceMutacao);
-		}
-		else {
-			this->mutacaoCamadaSaida(indiceMutacao);
-		}
-	}
-
-	void DensaGenetica::evoluir()
+	vector<int> Densa::alterarDNA(vector<int> dna)
 	{
 		int mutacoes = rand() % (int) this->qtdMutacoes;
-		int indiceMutacao = rand() % this->tamanhoDNA;
-		while (mutacoes >= 0) {
-			this->realizaMutacao(indiceMutacao);
-			indiceMutacao = rand() % this->tamanhoDNA;
+		int indiceMutacao = rand() % dna.size();
+		int valor = Cyrebro::getRandomValue();
+		do {
+			valor = dna[indiceMutacao];
+			valor = this->mudarValor(valor);
+			dna[indiceMutacao] = valor;
+			indiceMutacao = rand() % dna.size();
 			mutacoes--;
-		}
+		} while (mutacoes);
+		return dna;
+	}
 
-		this->qtdMutacoes *= DECAIMENTO_MUTACOES;
-		if (this->qtdMutacoes > (this->tamanhoDNA * TAXA_MINIMA_MUTACOES)) {
+	void Densa::sofrerMutacao()
+	{
+		vector<int> dna = this->copiarDNA();
+		dna = this->alterarDNA(dna);
+		this->colarDNA(dna);
+
+		if (this->qtdMutacoes > (this->qtdMutacoes * TAXA_MINIMA_MUTACOES)) {
 			this->qtdMutacoes *= DECAIMENTO_MUTACOES;
 		}
-
+	}
+	
+	void Densa::copiarRede(Densa*inspiracao)
+	{
+		vector<int> dnaInpiracao = inspiracao->copiarDNA();
+		this->colarDNA(dnaInpiracao);
 	}
 }

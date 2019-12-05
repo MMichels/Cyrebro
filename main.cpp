@@ -8,7 +8,7 @@ using namespace Redes;
 int main()
 {
 
-	DensaGenetica camada1(18, 1, 6, 4);
+	Densa cerebro1(18, 1, 6, 4);
 	vector<int> valores(18, 0);
 	int aleatorio = 0;
 
@@ -17,26 +17,34 @@ int main()
 		aleatorio = rand() % 100;
 		valores[n] = aleatorio;
 	}
-	camada1.aplicarEntrada(valores);
-	camada1.calculaSaida();
 
-	for (int s : camada1.obterSaida()) {
+	cerebro1.aplicarEntrada(valores);
+	cerebro1.calculaSaida();
+
+	
+	cout << "Saida cerebro1: ";
+	for (int s : cerebro1.obterSaida()) {
 		cout << s << "\t";
 	}
+	cout << endl;
 
-	int contaMutacao = 100;
+	cout << "Realizando mutacoes no cerebro 1: " << endl;;
+	int contaMutacao = 1;
+
 	do {
 		cout << endl;
 
-		camada1.aplicarEntrada(valores);
-		camada1.evoluir();
-		camada1.calculaSaida();
+		cerebro1.sofrerMutacao();
+		cerebro1.aplicarEntrada(valores);
+		cerebro1.calculaSaida();
 
-		for (int s : camada1.obterSaida()) {
+		cout << "Apos " << contaMutacao << " Mutacao: ";
+		for (int s : cerebro1.obterSaida()) {
 			cout << s << "\t";
 		}
-		contaMutacao--;
-	} while (contaMutacao);
+		cout << endl;
+		contaMutacao++;
+	} while (contaMutacao <= 10);
 
 
     return 0;

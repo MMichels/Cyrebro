@@ -14,13 +14,14 @@ using namespace Camadas;
 namespace Redes {
 	class Densa {
 	private:
+		void _calcula_tamanho_dna();
+		void _calcula_qtd_genes_saida();
 		void _inicializarComum();
 
 	public:
-		int qtdNeuroniosEntrada;
-		int qtdCamadas;
-		int profundidadeEscondidas;
-		int qtdNeuroniosSaida;
+		int qtdNeuroniosEntrada, qtdCamadas, profundidadeEscondidas, qtdNeuroniosSaida;
+		int tamanhoDNA, qtdGenesCamadaSaida, qtdGenesCamadasEscondidas;
+		float qtdMutacoes;
 
 		MLP camadaEntrada;
 		vector<MLP> camadasEscondidas;
@@ -33,29 +34,17 @@ namespace Redes {
 		void calculaSaida();
 		vector<int> obterSaida();
 
+		int mudarValor(int valor);
+		vector<int> copiarDNA();
+		void colarDNA(vector<int> dna);
+		vector<int> alterarDNA(vector<int> dna);
+		void sofrerMutacao();
+
+		void copiarRede(Densa* inspiracao);
+
 
 		~Densa();
 
-	};
-
-	class DensaGenetica : public Densa {
-	private:
-		void _calcula_tamanho_dna();
-		void _calcula_qtd_genes_saida();
-
-	public:
-		int tamanhoDNA, qtdGenesCamadaSaida, qtdGenesCamadasEscondidas;
-		float qtdMutacoes;
-
-		DensaGenetica(int qtdNeuEntrada, int qtdCamadas, int profundidade, int qtdNeuSaida);
-
-		int mudarValor(int valor);
-		void mutacaoCamadasEscondidas(int indiceMutacao);
-		void mutacaoCamadaSaida(int indiceMutacao);
-		void realizaMutacao(int indiceMutacao);
-		void evoluir();
-
-		
 	};
 }
 
