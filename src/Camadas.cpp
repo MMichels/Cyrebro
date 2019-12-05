@@ -62,6 +62,17 @@ namespace Camadas {
 			this->perceptrons[i].saida = valoresEntrada[i];
 		}
 	}
+
+	vector<int> MLP::visualizarPesos()
+	{
+		vector<int> pesos;
+		for (Perceptron p : this->perceptrons) {
+			for (int peso : p.pesos) {
+				pesos.push_back(peso);
+			}
+		}
+		return pesos;
+	}
 	
 	MLP::~MLP()
 	{

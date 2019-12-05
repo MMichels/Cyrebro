@@ -8,32 +8,35 @@ using namespace Redes;
 int main()
 {
 
-	Densa r(18, 1, 6, 4);
+	DensaGenetica camada1(18, 1, 6, 4);
 	vector<int> valores(18, 0);
 	int aleatorio = 0;
 
 	for (int n = 0; n < valores.size(); n++)
 	{
-		aleatorio = rand() % 3;
-		switch (aleatorio)
-		{
-		case 1:
-			valores[n] = rand() % 10000;
-			break;
-		case 2:
-			valores[n] = 10000;
-			break;
-		default:
-			valores[n] = 0;
-		}
-
+		aleatorio = rand() % 100;
+		valores[n] = aleatorio;
 	}
-	r.aplicarEntrada(valores);
-	r.calculaSaida();
+	camada1.aplicarEntrada(valores);
+	camada1.calculaSaida();
 
-	for (int s : r.obterSaida()) {
+	for (int s : camada1.obterSaida()) {
 		cout << s << "\t";
 	}
+
+	int contaMutacao = 100;
+	do {
+		cout << endl;
+
+		camada1.aplicarEntrada(valores);
+		camada1.evoluir();
+		camada1.calculaSaida();
+
+		for (int s : camada1.obterSaida()) {
+			cout << s << "\t";
+		}
+		contaMutacao--;
+	} while (contaMutacao);
 
 
     return 0;

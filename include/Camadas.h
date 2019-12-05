@@ -62,6 +62,8 @@ namespace Camadas {
 		*/
 		void aplicarEntrada(vector<int> valoresEntrada);
 
+		vector<int> visualizarPesos();
+
 
 		// Desconstrutor padrão.
 		~MLP();

@@ -1,4 +1,5 @@
 #include <time.h>
+#include "../include/Util.h"
 #include "../include/Neuronios.h"
 
 namespace Neuronios {
@@ -29,10 +30,10 @@ namespace Neuronios {
 		for (int p = 0; p < this->qtdLigacoes; p++) {
 			int negativoPositivo = rand() % 2;
 			if (negativoPositivo >= 1) {
-				this->pesos[p] = rand() % (VALOR_TRABALHO + 1);
+				this->pesos[p] = (int) Cyrebro::getRandomValue();
 			}
 			else {
-				this->pesos[p] = -(rand() % (VALOR_TRABALHO + 1));
+				this->pesos[p] = -(int) Cyrebro::getRandomValue();
 			}
 		}
 	}
