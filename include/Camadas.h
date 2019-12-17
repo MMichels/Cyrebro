@@ -14,8 +14,7 @@ using namespace Neuronios;
 namespace Camadas {
 	class MLP {
 	public:
-		int qtdPerceptrons, minimoMutacoes;
-		float  qtdMutacoes;
+		int qtdPerceptrons;
 		vector<Perceptron> perceptrons; // Vetor com os Neuronios do tipo Perceptron.
 		void _inicializadorPadrao();
 
